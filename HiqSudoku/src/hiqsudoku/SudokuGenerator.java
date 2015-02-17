@@ -36,78 +36,53 @@ public class SudokuGenerator {
     }
 
     
-    /**
-     * Calculates and returns all indices on the row of a provided index
-     * @param index the index of which to calculate row indices
-     * @return an array containing the four indices on the row
-     */
-    private int[] getRowIndices(int index)
-    {
-        int row = index /4; 
-        int[] indices = new int[4];
-        for(int i = 0; i < 4; i++)
-        {
-            indices[i] = row*4+i;
-        }
-        return indices;
-    }
+       
     
-    /**
-     * Calculates and returns all indices in the column of a provided index
-     * @param index the index of which to calculate column indices
-     * @return an array containing the four indices in the column
-     */
-    private int[] getColIndices(int index)
-    {
-        int column = index % 4;
-        int[] indices = new int[4];
-        for(int i = 0; i < 4; i++)
-        {
-            indices[i] = column+i*4;
-        }
-        return indices;
-    }
     
     /**
      * Calculates and returns all indices in the quad of a provided index
      * @param index the index of which to calculate quad indices
      * @return an array containing the four indices in the quad
      */
-    private int[] getQuadIndices(int index)
+    private int[] getConcernedIndices(int index)
     {
-        int[] indices = new int[4];
-        if( index == 0 || index == 1 || index ==4 || index == 5)
+        int counter = 0;
+        int[] indices = new int[9];
+        
+        int diagonal;
+        int row = index/4;
+        int col = index%4;
+        
+        if(row %2 != 0)
         {
-            indices[0] = 0;
-            indices[1] = 1;
-            indices[2] = 4;
-            indices[3] = 5;
-            return indices; 
+            if(col%2 != 0)
+            {
+                diagonal = index - 5;
+            }
+            else
+            {
+                diagonal = index -3;
+            }
         }
-        if( index == 2 || index == 3 || index ==6 || index == 7)
+        else 
         {
-            indices[0] = 2;
-            indices[1] = 3;
-            indices[2] = 6;
-            indices[3] = 7;
-            return indices; 
+            if(col%2 != 0)
+            {
+                diagonal = index +3;
+            }
+            else
+            {
+                diagonal = index +5;
+            }
         }
-        if( index == 8 || index == 9 || index ==12 || index == 13)
+        indices[counter++] = diagonal;
+        
+        for(int i = 0; i < 4; i++)
         {
-            indices[0] = 8;
-            indices[1] = 9;
-            indices[2] = 12;
-            indices[3] = 13;
-            return indices; 
+            indices[counter++] = col+i*4;
+            indices[counter++] = row*4+i;
         }
-        if( index == 10 || index == 11 || index ==14 || index == 15)
-        {
-            indices[0] = 10;
-            indices[1] = 11;
-            indices[2] = 14;
-            indices[3] = 15;
-            return indices; 
-        }
+        
         return indices;
     }
     
@@ -118,9 +93,10 @@ public class SudokuGenerator {
      * @param indices the corresponding indices to the index provided. Row, Column or Quad. 
      * @return 
      */
-    private boolean validate(int number, int index, int[] indices)
+    private boolean validateNumber(int number, int index)
     {
-        for(int i : indices)
+        
+        for(int i : getConcernedIndices(index))
         {
             if(i != index && grid[i] == number)
             {
@@ -133,7 +109,7 @@ public class SudokuGenerator {
     
     /**
      * Is used to refresh the list of potential numbers for a given index. 
-     * @return a list of integers contaning numbers 1 through 4
+     * @return a list of integers containing numbers 1 through 4
      */
     private List<Integer> getFreshNumbers()
     {
@@ -173,8 +149,7 @@ public class SudokuGenerator {
                 else
                 {
                     Integer number = remainingNumbers.get(index).get(rand.nextInt(remainingNumbers.get(index).size()));
-                    if(validate(number, index, getRowIndices(index)) && validate(number, index, getColIndices(index)) && 
-                            validate(number, index, getQuadIndices(index)))
+                    if(validateNumber(number, index))
                     {
                         grid[index] = number;
                         validNumber = true;
@@ -188,9 +163,16 @@ public class SudokuGenerator {
             }
         }
         
-        System.out.println(grid[0] + " "+ grid[1] + " " +grid[2] + " " +grid[3] + "\n" +
-                           grid[4] + " "+ grid[5] + " " +grid[6] + " " +grid[7] + "\n" + 
-                           grid[8] + " "+ grid[9] + " " +grid[10] + " " +grid[11] + "\n" +
-                           grid[12] + " "+ grid[13] + " " +grid[14] + " " +grid[15] + "\n");
+        
+    }
+    
+    public String presentSudoku(int difficulty)
+    {
+        
+        String sudokuString = grid[0] + " "+ grid[1] + " " +grid[2] + " " +grid[3] + "\n" +
+                              grid[4] + " "+ grid[5] + " " +grid[6] + " " +grid[7] + "\n" + 
+                              grid[8] + " "+ grid[9] + " " +grid[10] + " " +grid[11] + "\n" +
+                              grid[12] + " "+ grid[13] + " " +grid[14] + " " +grid[15] + "\n";
+        return sudokuString;
     }
 }
