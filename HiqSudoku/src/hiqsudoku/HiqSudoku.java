@@ -21,7 +21,7 @@ public class HiqSudoku {
     public static void main(String[] args) {
         int difficulty = 8;
         int nrOfSudokus = 10;
-        if(args.length ==1)
+        if(args.length >0)
         {
            
                 try{
@@ -32,7 +32,7 @@ public class HiqSudoku {
                 
                 }
         }
-        if(args.length ==2)
+        if(args.length >1)
         {
             try{
                 difficulty = Integer.parseInt(args[1]);
