@@ -145,7 +145,7 @@ public class SudokuGenerator {
      */    
     public String presentSudoku(int difficulty){
         
-        if(difficulty <= 0 || difficulty >= 116)
+        if(difficulty <= 0 || difficulty >= 16)
         {
             throw new IllegalArgumentException("Provided difficulty: "+ difficulty +" is too high or too low. Please use only numbers between 1 and 15.");
         }
