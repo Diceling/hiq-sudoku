@@ -21,10 +21,9 @@ public class HiqSudoku {
     public static void main(String[] args) {
         int difficulty = 8;
         int nrOfSudokus = 10;
-        if(args.length > 0)
+        if(args.length ==1)
         {
-            if(args[0] != null)
-            {
+           
                 try{
                     nrOfSudokus = Integer.parseInt(args[0]);
                 }catch(NumberFormatException e)
@@ -32,20 +31,19 @@ public class HiqSudoku {
                     System.out.println(e.getMessage() + ": Couldn't parse Nr of Sudokus. Using standard number (10)");
                 
                 }
-            }
-            if(args[1] != null)
+        }
+        if(args.length ==2)
+        {
+            try{
+                difficulty = Integer.parseInt(args[1]);
+            }catch(NumberFormatException e)
             {
-                try{
-                    difficulty = Integer.parseInt(args[1]);
-                }catch(NumberFormatException e)
-                {
-                    System.out.println(e.getMessage() + ": Couldn't parse difficulty. Using standard number (8)");
-                
-                }
+                 System.out.println(e.getMessage() + ": Couldn't parse difficulty. Using standard number (8)");
             }
         }
+        
         SudokuGenerator generator = new SudokuGenerator();
-        for(int i = 0; i < nrOfSudokus; i ++)
+        for(int i = 0; i < nrOfSudokus-1; i ++)
         {
            generator.generateSudoku();
            System.out.println("Sudoku:");
