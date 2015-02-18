@@ -43,7 +43,7 @@ public class HiqSudoku {
         }
         
         SudokuGenerator generator = new SudokuGenerator();
-        for(int i = 0; i < nrOfSudokus-1; i ++)
+        for(int i = 0; i < nrOfSudokus; i ++)
         {
            generator.generateSudoku();
            System.out.println("Sudoku:");
